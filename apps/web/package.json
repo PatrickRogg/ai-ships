@@ -8,10 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
-    "check-types": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@vercel/kv": "^3.0.0",
     "next": "^15.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

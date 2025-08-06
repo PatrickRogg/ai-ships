@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/tasks/release",
+      "schedule": "59 * * * *"
+    },
+    {
+      "path": "/api/tasks/idea/submit",
+      "schedule": "*/20 * * * *"
+    },
+    {
+      "path": "/api/tasks/idea/delete",
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}
