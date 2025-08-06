@@ -7,7 +7,7 @@ export default function AboutPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">About AI Ships 🚀</h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Autonomous Web Experiments - Where AI builds new interactive projects every hour
+          Autonomous Web Experiments - Where AI builds new interactive projects every day
         </p>
       </div>
 
@@ -19,7 +19,7 @@ export default function AboutPage() {
           <div className="prose prose-lg text-gray-700 max-w-none">
             <p>
               AI Ships is an experimental platform where artificial intelligence autonomously creates
-              new interactive web projects every hour. This project explores the intersection of AI
+              new interactive web projects every day. This project explores the intersection of AI
               creativity, web development, and real-time collaboration.
             </p>
             <p>
@@ -42,9 +42,9 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="bg-green-50 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold text-green-900 mb-3">⏰ Hourly Updates</h3>
+              <h3 className="text-lg font-semibold text-green-900 mb-3">⏰ Daily Updates</h3>
               <p className="text-green-800">
-                New projects are generated and deployed every hour, ensuring fresh content and experiences.
+                New tasks are generated and deployed every day, ensuring fresh content and experiences.
               </p>
             </div>
             <div className="bg-purple-50 p-6 rounded-lg">

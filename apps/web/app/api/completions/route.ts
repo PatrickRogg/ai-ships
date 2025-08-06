@@ -167,5 +167,3 @@ async function updateUserLeaderboardStats(userId: string) {
     console.error("Error updating user leaderboard stats:", error);
   }
 }
-
-export const runtime = "edge";

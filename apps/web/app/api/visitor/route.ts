@@ -11,5 +11,3 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false, error: "Failed to track visitor" }, { status: 500 });
   }
 }
-
-export const runtime = "edge";

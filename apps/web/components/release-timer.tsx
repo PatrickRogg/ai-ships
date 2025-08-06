@@ -22,15 +22,23 @@ export function ReleaseTimer({ className = '', compact = false }: ReleaseTimerPr
     const calculateTimeLeft = () => {
       const now = new Date();
       
-      // Calculate time until next hour (releases every hour)
-      const minutesLeft = 59 - now.getMinutes();
-      const secondsLeft = 59 - now.getSeconds();
+      // Calculate time until next day (releases daily at midnight UTC)
+      const tomorrow = new Date(now);
+      tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+      tomorrow.setUTCHours(0, 0, 0, 0);
+      
+      const timeLeft = tomorrow.getTime() - now.getTime();
+      
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
       setTimeLeft({
-        days: 0,
-        hours: 0,
-        minutes: minutesLeft,
-        seconds: secondsLeft,
+        days,
+        hours,
+        minutes,
+        seconds,
       });
     };
 
@@ -49,7 +57,7 @@ export function ReleaseTimer({ className = '', compact = false }: ReleaseTimerPr
       <div className={`flex items-center space-x-1 text-sm ${className}`}>
         <span className="text-gray-500">Next release:</span>
         <span className="text-blue-600 font-mono">
-          {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+          {timeLeft.days > 0 ? `${timeLeft.days}d ` : ''}{timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
         </span>
       </div>
     );

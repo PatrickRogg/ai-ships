@@ -1,28 +1,11 @@
 import {
-  submitTaskIdea,
   canUserSubmitTask,
   getTimeUntilNextSubmission,
+  submitTaskIdea,
 } from "@lib/task-prefs";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyCronAuth } from "@lib/cron-auth";
 
 export async function POST(request: NextRequest) {
-  // Check if this is a cron job request
-  const cronSecret = process.env.CRON_SECRET;
-  const authHeader = request.headers.get("authorization");
-  const isCronRequest = cronSecret && authHeader && authHeader === `Bearer ${cronSecret}`;
-
-  // If it's a cron request, verify authentication
-  if (isCronRequest) {
-    const authError = verifyCronAuth(request);
-    if (authError) {
-      return authError;
-    }
-    // TODO: Implement cron-specific logic for automated task submissions
-    return NextResponse.json({ success: true, source: "cron" });
-  }
-
-  // Handle regular user submissions
   try {
     const { title, description, userId } = await request.json();
 

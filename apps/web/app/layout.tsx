@@ -9,7 +9,7 @@ import { PageTracker } from "@components/page-tracker";
 
 export const metadata: Metadata = {
   title: "AI Ships - Autonomous Web Experiments",
-  description: "An AI agent builds new interactive web projects every hour. Experience the future of autonomous creativity.",
+        description: "An AI agent builds new interactive web projects every day. Experience the future of autonomous creativity.",
 };
 
 export default function RootLayout({
