@@ -1,135 +1,184 @@
-# Turborepo starter
+# AI Ships 🚀 - Interactive Task Builder
 
-This Turborepo starter is maintained by the Turborepo core team.
+**AI Ships** is an experimental platform where AI creates engaging, interactive web tasks that users can complete in under 1 minute. Each task is a polished micro-experience designed to be fun, educational, and shareable.
 
-## Using this example
+## 🎯 Project Vision
 
-Run the following command:
+AI Ships demonstrates the potential of AI-powered interactive content creation. The AI agent specializes in building:
 
-```sh
-npx create-turbo@latest
-```
+- **Games**: Simple arcade-style games, reflex challenges, pattern matching
+- **Puzzles**: Logic puzzles, math challenges, coding problems, riddles  
+- **Interactive Tools**: Mini utilities, generators, converters, calculators
 
-## What's inside?
+Every task is designed to be completed within 1 minute and provide immediate satisfaction.
 
-This Turborepo includes the following packages/apps:
+## 🏗️ Architecture
+
+This is a Turborepo monorepo built with modern web technologies:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- `apps/web`: Main Next.js 15 application with the task system
+- `packages/ui`: Shared React component library (shadcn/ui based)
+- `packages/eslint-config`: ESLint configurations
+- `packages/typescript-config`: TypeScript configurations
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Core Technologies
 
-### Utilities
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript (100% coverage)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **State Management**: React Context for task completion tracking
+- **Storage**: localStorage for progress and completions
+- **Monorepo**: Turborepo for efficient builds and development
 
-This Turborepo has some additional tools already setup for you:
+## 🚀 Quick Start
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### Prerequisites
 
-### Build
+- **Node.js**: >= 18
+- **pnpm**: >= 9.0.0 (required package manager)
 
-To build all apps and packages, run the following command:
+### Installation
 
-```
-cd my-turborepo
+```bash
+# Clone the repository
+git clone <repository-url>
+cd ai-ships
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+# Install dependencies
+pnpm install
 ```
 
-### Develop
+### Development
 
-To develop all apps and packages, run the following command:
+```bash
+# Start the development server
+pnpm dev
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+# The web app will be available at http://localhost:3000
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+### Building
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+```bash
+# Build all apps and packages
+pnpm build
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+# Build only the web app
+turbo build --filter=web
 ```
 
-### Remote Caching
+### Code Quality
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+```bash
+# Run TypeScript type checking
+pnpm typecheck
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+# Run ESLint
+pnpm lint
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+# Format code with Prettier
+pnpm format
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🎮 Task System Overview
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### What are Tasks?
+
+Tasks are self-contained interactive experiences that users can complete in under 1 minute. Each task includes:
+
+- **Clear Goal**: Immediate understanding of what to achieve
+- **Interactive UI**: Engaging user interface with real-time feedback
+- **Completion Tracking**: Progress tracking with time and attempts
+- **Replay Capability**: Users can reset and replay tasks
+
+### Task Categories
+
+1. **Games**: Pattern matching, reflex challenges, memory games
+2. **Puzzles**: Logic problems, math challenges, code challenges  
+3. **Tools**: Interactive utilities, generators, calculators
+
+### Current Tasks
+
+- **Task #1**: Interactive Color Palette Generator
+
+## 🤖 AI Task Development
+
+### For AI Agents
+
+This project includes specialized AI agents that build tasks within the `@tasks/` directory. The AI follows strict guidelines:
+
+- **Scope**: Work only within the task system (`apps/web/tasks/`)
+- **Duration**: All tasks must be completable within 1 minute
+- **Quality**: Full TypeScript coverage, proper testing, mobile responsive
+- **Architecture**: Use the established task patterns and utilities
+
+See [`Claude.md`](./Claude.md) for detailed AI agent instructions.
+
+### Task Structure
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+apps/web/tasks/
+├── task-[number]/
+│   └── index.tsx           # Task component
+├── utils/
+│   ├── task-helpers.ts     # Shared utilities
+│   ├── game-utils.ts       # Game mechanics
+│   └── math-utils.ts       # Math/logic utilities
+├── providers/
+│   └── task-provider.tsx   # Task state management
+└── task-list.tsx           # Task registry
 ```
 
-## Useful Links
+## 🛠️ Contributing
 
-Learn more about the power of Turborepo:
+### For Developers
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+1. **Focus Area**: Main application development outside the task system
+2. **Task System**: Managed exclusively by AI agents
+3. **Code Quality**: Maintain TypeScript coverage and follow established patterns
+
+### For AI Agents
+
+1. **Read Guidelines**: Study [`Claude.md`](./Claude.md) and [`CODING_RULES.md`](./CODING_RULES.md)
+2. **Task Scope**: Work only within `@tasks/` directory
+3. **Quality Checks**: Always run `pnpm typecheck` and `pnpm lint`
+4. **Testing**: Ensure tasks work on mobile and achieve 1-minute completion
+
+### Code Quality Standards
+
+- **TypeScript**: 100% coverage required
+- **Linting**: ESLint must pass with max 0 warnings
+- **Testing**: Manual testing for task completion flows
+- **Mobile**: All tasks must work on phone screens
+- **Accessibility**: Proper ARIA labels and keyboard navigation
+
+## 📁 Project Structure
+
+```
+ai-ships/
+├── apps/
+│   └── web/                # Main Next.js application
+│       ├── app/            # Next.js 15 App Router pages
+│       ├── components/     # Reusable UI components
+│       ├── tasks/          # AI-managed task system
+│       ├── lib/            # Utility functions
+│       ├── providers/      # React context providers
+│       └── type/           # TypeScript definitions
+├── packages/
+│   ├── ui/                 # Shared component library
+│   ├── eslint-config/      # ESLint configurations
+│   └── typescript-config/  # TypeScript configurations
+└── docs/
+    ├── Claude.md           # AI agent instructions
+    └── CODING_RULES.md     # Development guidelines
+```
+
+## 🔗 Useful Links
+
+- [Next.js App Router](https://nextjs.org/docs/app)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [shadcn/ui Components](https://ui.shadcn.com/)
+- [Turborepo Documentation](https://turborepo.com/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
