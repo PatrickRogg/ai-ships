@@ -1,5 +1,6 @@
 import { verifyCronAuth } from "@lib/cron-auth";
 import { deleteOldTaskIdeas, submitTaskIdea } from "@lib/task-prefs";
+import { getFormattedTaskIdeas } from "@lib/ai-task-generator";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -16,29 +17,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await Promise.all([
-      submitTaskIdea({
-        title: "Test Task",
-        description: "This is a test task",
-        status: "pending",
-      }),
-      submitTaskIdea({
-        title: "Test Task 2",
-        description: "This is a test task 2",
-        status: "pending",
-      }),
-      submitTaskIdea({
-        title: "Test Task 3",
-        description: "This is a test task 3",
-        status: "pending",
-      }),
-    ]);
-  } catch (error) {}
-
-  try {
-    await releaseTask();
+    // Generate and submit AI-powered task ideas based on current trends
+    await findAndSubmitTaskIdeas();
   } catch (error) {
-    console.error("Error releasing task:", error);
+    console.error("Error generating and submitting task ideas:", error);
   }
 
   return NextResponse.json({
@@ -48,6 +30,33 @@ export async function POST(request: NextRequest) {
   });
 }
 
-const releaseTask = async () => {
-  // TODO: Implement task release logic
+const findAndSubmitTaskIdeas = async () => {
+  try {
+    console.log("Generating AI-powered task ideas based on HackerNews trends...");
+    
+    // Get AI-generated task ideas based on current trends
+    const taskIdeas = await getFormattedTaskIdeas();
+    
+    console.log(`Generated ${taskIdeas.length} task ideas`);
+    
+    // Submit each task idea
+    const submissions = taskIdeas.map(idea => 
+      submitTaskIdea({
+        title: idea.title,
+        description: idea.description,
+        status: idea.status,
+      })
+    );
+    
+    const results = await Promise.all(submissions);
+    
+    console.log(`Successfully submitted ${results.length} task ideas:`, 
+      taskIdeas.map(idea => idea.title)
+    );
+    
+    return results;
+  } catch (error) {
+    console.error("Error in findAndSubmitTaskIdeas:", error);
+    throw error;
+  }
 };
