@@ -1,13 +1,23 @@
 # AI Ships - Interactive Task Builder
 
 ## Mission
-You are an AI coding agent specialized in building interactive tasks within the AI Ships task system. Your sole focus is creating engaging, educational, and fun micro-experiences that users can complete within 1 minute.
+You are an AI coding agent specialized in building interactive tasks within the AI Ships task system. AI Ships is a Turborepo monorepo platform where AI creates engaging, interactive web tasks that users can complete in under 1 minute. The platform demonstrates the potential of AI-powered interactive content creation.
+
+## Codebase Overview
+
+This is a **Turborepo monorepo** with the following structure:
+- `apps/web/`: Next.js 15 application with App Router, TypeScript, and Tailwind CSS
+- `packages/ui/`: Comprehensive shadcn/ui-based component library with 40+ components
+- `packages/eslint-config/`: Shared ESLint configurations
+- `packages/typescript-config/`: Shared TypeScript configurations
+
+The platform includes task generation, user statistics, leaderboards, completion tracking, and AI-powered daily task generation based on HackerNews trends.
 
 ## Scope & Restrictions
-- **WORK AREA**: Only the `@tasks/` directory and its subdirectories
-- **NO OTHER AREAS**: Do not modify any code outside the tasks system
-- **TASK FOCUS**: Create self-contained interactive tasks only
-- **UTILITIES**: Use and extend utilities in `@tasks/utils/` for shared functionality
+- **PRIMARY WORK AREA**: `apps/web/tasks/` directory and its subdirectories
+- **TASK MANAGEMENT**: Update `apps/web/tasks/task-list.tsx` when adding tasks
+- **UTILITIES**: Use and extend utilities in `apps/web/tasks/utils/` for shared functionality
+- **NO OTHER AREAS**: Do not modify code outside the tasks system unless specifically required
 
 ## Core Responsibilities
 
@@ -50,7 +60,8 @@ You are an AI coding agent specialized in building interactive tasks within the 
 ```tsx
 'use client';
 import { useTaskInstance } from '@tasks/providers/task-provider';
-import { Button } from '@components/ui/button';
+import { Button } from '@repo/ui/components/button';
+import { Card, CardContent } from '@repo/ui/components/card';
 
 export default function TaskXXXXXXX() {
   const { markComplete, reset, isCompleted, timeSpent, attempts } = useTaskInstance('task-xxxxxxx');
@@ -63,18 +74,22 @@ export default function TaskXXXXXXX() {
 
   if (isCompleted) {
     return (
-      <div className="text-center p-8">
-        <h2 className="text-2xl font-bold text-green-600 mb-4">🎉 Task Completed!</h2>
-        <p>Time: {timeSpent}s | Attempts: {attempts}</p>
-        <Button onClick={reset} className="mt-4">Play Again</Button>
-      </div>
+      <Card className="text-center p-8">
+        <CardContent>
+          <h2 className="text-2xl font-bold text-green-600 mb-4">🎉 Task Completed!</h2>
+          <p>Time: {timeSpent}s | Attempts: {attempts}</p>
+          <Button onClick={reset} className="mt-4">Play Again</Button>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="p-4">
-      {/* Interactive task content */}
-    </div>
+    <Card className="p-4">
+      <CardContent>
+        {/* Interactive task content */}
+      </CardContent>
+    </Card>
   );
 }
 ```
@@ -108,25 +123,51 @@ export default function TaskXXXXXXX() {
 ## Technical Stack
 
 ### Core Technologies
-- **Framework**: React components within Next.js 15
-- **Language**: TypeScript (required)
-- **Styling**: Tailwind CSS with shadcn/ui components
-- **State Management**: TaskProvider for completion tracking
-- **Storage**: localStorage for task completions and progress
+- **Framework**: Next.js 15 with App Router and React 19
+- **Language**: TypeScript 5.8+ (100% coverage required)
+- **Styling**: Tailwind CSS 4.x with comprehensive shadcn/ui component library
+- **State Management**: React Context via TaskProvider for completion tracking
+- **Storage**: localStorage for task completions, Vercel KV for stats
+- **AI Integration**: Vercel AI SDK with Google Vertex AI for task generation
+- **Monorepo**: Turborepo with pnpm workspaces
+- **Build**: Turbopack for faster development and builds
+
+### Key Dependencies
+**Web App (`apps/web/`):**
+- Next.js 15.4.2, React 19, TypeScript 5.8
+- Vercel AI SDK, Google Vertex AI provider
+- Vercel KV for data storage
+- Zod for schema validation
+
+**UI Package (`packages/ui/`):**
+- 40+ Radix UI components (dialogs, dropdowns, forms, etc.)
+- Recharts for data visualization
+- React Hook Form with resolvers
+- Tailwind CSS with merge utilities
+- Lucide React icons
 
 ### Available Utilities
-- **@tasks/utils/game-utils**: Game mechanics, timers, animations
-- **@tasks/utils/math-utils**: Mathematical functions, puzzles, sequences
-- **@tasks/utils/task-helpers**: General utilities, formatting, storage
-- **@components/ui/***: Pre-built UI components (Button, Input, etc.)
+- **`apps/web/tasks/utils/`**: Task-specific utilities
+- **`@repo/ui/components/*`**: 40+ pre-built UI components
+- **`@repo/ui/lib/*`**: Utility functions and helpers
+- **`apps/web/lib/`**: Application-level utilities and AI integration
 
 ### Import Patterns (NO leading slashes)
 ```tsx
+// Task system imports
 import { useTaskInstance } from '@tasks/providers/task-provider';
-import { randomColor, shuffleArray } from '@tasks/utils/game-utils';
-import { generateMathExpression } from '@tasks/utils/math-utils';
-import { formatElapsedTime } from '@tasks/utils/task-helpers';
-import { Button } from '@components/ui/button';
+import { gameUtils } from '@tasks/utils/game-utils';
+import { mathUtils } from '@tasks/utils/math-utils';
+import { taskHelpers } from '@tasks/utils/task-helpers';
+
+// UI components from shared package
+import { Button } from '@repo/ui/components/button';
+import { Input } from '@repo/ui/components/input';
+import { Card } from '@repo/ui/components/card';
+
+// App-level utilities
+import { cn } from '@lib/utils';
+import { TaskStats } from '@components/task-stats';
 ```
 
 ## Task Development Workflow
@@ -156,10 +197,11 @@ import { Button } from '@components/ui/button';
    - Confirm accessibility
 
 ### Task Registry Management
-- Always update `@tasks/task-list.tsx` when adding new tasks
-- Use proper task ID format: `task-0000XXX`
-- Include all required Task interface properties
-- Test import paths are correct
+- Always update `apps/web/tasks/task-list.tsx` when adding new tasks
+- Use proper task ID format: `task-0000XXX` (7 digits total)
+- Include all required Task interface properties (id, name, description, createdAt, component)
+- Import task components using relative imports from task directories
+- Test import paths are correct with TypeScript compilation
 
 ## Task Design Guidelines
 
@@ -202,5 +244,89 @@ import { Button } from '@components/ui/button';
 - [ ] UI is responsive on mobile
 - [ ] All interactions provide feedback
 - [ ] Task completes within 1 minute for average user
+
+## Current Codebase Structure
+
+```
+ai-ships/
+├── apps/
+│   └── web/                     # Main Next.js 15 application
+│       ├── app/                 # App Router pages and API routes
+│       │   ├── api/             # API endpoints
+│       │   │   ├── completions/ # Task completion tracking
+│       │   │   ├── daily/       # Daily task generation
+│       │   │   ├── generate-tasks/ # AI task idea generation
+│       │   │   ├── hackernews-trends/ # HN trend analysis
+│       │   │   ├── leaderboard/ # User rankings
+│       │   │   ├── stats/       # Usage statistics
+│       │   │   ├── tasks/       # Task CRUD operations
+│       │   │   ├── visitor/     # Visitor tracking
+│       │   │   └── votes/       # Task voting system
+│       │   ├── about/           # About page
+│       │   ├── leaderboard/     # Leaderboard page
+│       │   ├── tasks/           # Task browsing and playing
+│       │   └── layout.tsx       # Root layout
+│       ├── components/          # Reusable UI components
+│       │   └── task-stats.tsx   # Task statistics component
+│       ├── lib/                 # Application utilities
+│       │   ├── ai.ts           # AI integration (Vercel AI SDK)
+│       │   ├── ai-task-generator.ts # AI task idea generation
+│       │   ├── hackernews.ts   # HackerNews API integration
+│       │   └── task-prefs.ts   # Task preferences
+│       ├── providers/           # React context providers
+│       │   └── task-provider.tsx # Task state management
+│       ├── tasks/               # AI-managed task system
+│       │   ├── task-0000001/    # Individual tasks
+│       │   │   └── index.tsx
+│       │   ├── utils/           # Task utilities
+│       │   └── task-list.tsx    # Task registry
+│       └── type/                # TypeScript definitions
+│           └── task.ts          # Task interface
+├── packages/
+│   ├── ui/                      # Shared component library
+│   │   ├── src/
+│   │   │   ├── components/      # 40+ shadcn/ui components
+│   │   │   ├── hooks/           # Reusable React hooks
+│   │   │   ├── icons/           # Icon components
+│   │   │   ├── lib/             # Utility functions
+│   │   │   └── styles/          # Global styles
+│   │   └── package.json         # UI package dependencies
+│   ├── eslint-config/           # Shared ESLint configs
+│   └── typescript-config/       # Shared TypeScript configs
+└── Configuration files
+    ├── turbo.json              # Turborepo configuration
+    ├── pnpm-workspace.yaml     # pnpm workspace setup
+    └── package.json            # Root package.json
+```
+
+## Key Features
+
+### Task System
+- **Interactive Tasks**: 1-minute completion time, goal-oriented design
+- **Task Categories**: Games, puzzles, interactive tools
+- **Progress Tracking**: Completion times, attempts, user statistics
+- **Task Generation**: AI-powered task idea generation based on HackerNews trends
+
+### Platform Features
+- **Daily Tasks**: Automated daily task generation and release
+- **Leaderboard**: User rankings and competition
+- **Statistics**: Task completion analytics and user metrics
+- **Voting System**: Community-driven task rating
+- **Visitor Tracking**: Anonymous usage analytics
+
+### API Endpoints
+- `/api/tasks` - CRUD operations for tasks
+- `/api/completions` - Track task completions
+- `/api/generate-tasks` - AI task idea generation
+- `/api/daily` - Daily task management
+- `/api/stats` - Platform statistics
+- `/api/leaderboard` - User rankings
+- `/api/hackernews-trends` - Tech trend analysis
+
+### Build & Development
+- **Turbopack**: Fast development builds with `pnpm dev`
+- **Type Safety**: Full TypeScript coverage with strict mode
+- **Linting**: ESLint with zero warnings policy
+- **Monorepo**: Efficient builds with Turborepo and pnpm workspaces
 
 Remember: Every task should feel like a polished mini-game that users want to share with friends. Focus on creating delightful micro-experiences that showcase the potential of interactive web applications!
